@@ -44,6 +44,7 @@ fun cadastro(navController: NavController, cadastrox: (String, String) -> Unit) 
                 containerColor = Color.LightGray,
                 cursorColor = Color.Black
             ),
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
@@ -54,6 +55,7 @@ fun cadastro(navController: NavController, cadastrox: (String, String) -> Unit) 
                 containerColor = Color.LightGray,
                 cursorColor = Color.Black
             ),
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(14.dp))
         Button(
@@ -64,7 +66,8 @@ fun cadastro(navController: NavController, cadastrox: (String, String) -> Unit) 
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                 containerColor = Color.DarkGray,
                 contentColor = Color.White
-            )
+            ),
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Cadastre e Bem-vinda!")
         }

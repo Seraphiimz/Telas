@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -43,7 +44,8 @@ fun login(navController: NavController, cadLogin: String, cadSenha: String) {
             colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
                 containerColor = Color.LightGray,
                 cursorColor = Color.Black
-            )
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
@@ -53,7 +55,8 @@ fun login(navController: NavController, cadLogin: String, cadSenha: String) {
             colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
                 containerColor = Color.LightGray,
                 cursorColor = Color.Black
-            )
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -67,7 +70,8 @@ fun login(navController: NavController, cadLogin: String, cadSenha: String) {
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                 containerColor = Color.DarkGray,
                 contentColor = Color.White
-            )
+            ),
+            modifier = Modifier.fillMaxWidth()
             ) {
             Text("Login")
         }
