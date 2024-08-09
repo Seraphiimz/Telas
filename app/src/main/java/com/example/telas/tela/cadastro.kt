@@ -73,3 +73,5 @@ fun cadastro(navController: NavController, cadastrox: (String, String) -> Unit) 
         }
     }
 }
+
+/*Cadastro*/
