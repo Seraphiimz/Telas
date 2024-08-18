@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "305662796087",
+    "project_id": "telas-ifpb",
+    "storage_bucket": "telas-ifpb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305662796087:android:9cc7891fd188cd7179bab2",
+        "android_client_info": {
+          "package_name": "br.edu.ifpb.telas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB14MEImqfXv5S1AGtzc3Vr0zXNY1q7Lzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
