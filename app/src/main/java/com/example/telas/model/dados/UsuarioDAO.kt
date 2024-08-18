@@ -20,7 +20,7 @@ class UsuarioDAO {
     }
 
     fun buscarPorNome(nome: String, callback: (Usuario?) -> Unit) {
-        db.collection("usuarios").whereEqualTo("nome", nome).get()
+        db.collection("usuarios").whereEqualTo("loginx", nome).get()
             .addOnSuccessListener { document ->
                 if (!document.isEmpty) {
                     val usuario = document.documents[0].toObject<Usuario>()
@@ -33,6 +33,7 @@ class UsuarioDAO {
                 callback(null)
             }
     }
+
 
     fun buscarPorId(id: String, callback: (Usuario) -> Unit) {
         //TODO implemente buscar por Id
