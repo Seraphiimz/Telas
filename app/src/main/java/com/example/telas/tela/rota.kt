@@ -13,16 +13,14 @@ import com.example.telas.principal
 @Composable
 fun rota() {
     val navController = rememberNavController()
-    var cadLogin by rememberSaveable { mutableStateOf("") }
-    var cadSenha by rememberSaveable { mutableStateOf("") }
 
     NavHost(navController = navController, startDestination = "login") {
-        composable("login") { login(navController, cadLogin, cadSenha) }
-        composable("cadastro") {cadastro(navController, { login, senha ->
-            cadLogin = login
-            cadSenha = senha
-            navController.navigate("login")
-        }) }
-        composable("principal") { principal() }
+        composable("login") { login(navController) }
+        composable("cadastro") {
+            cadastro(navController)
+        }
+        composable("home") {
+            principal()
+        }
     }
 }

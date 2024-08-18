@@ -1,6 +1,9 @@
 package com.example.telas.model.dados
 
-class Usuario {
-    val login: String = ""
-    val senha: String = ""
-}
+import com.google.firebase.firestore.DocumentId
+
+data class Usuario(
+    @DocumentId var id: String = "",
+    var loginx: String = "",
+    var senha: String = ""
+)

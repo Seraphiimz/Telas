@@ -1,33 +1,26 @@
 package com.example.telas.tela
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.telas.model.dados.Usuario
+import com.example.telas.model.dados.UsuarioDAO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun cadastro(navController: NavController, cadastrox: (String, String) -> Unit) {
+fun cadastro(navController: NavController) {
     var loginx by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    val usuarioDAO = UsuarioDAO()
 
     Column(
         modifier = Modifier
@@ -40,7 +33,7 @@ fun cadastro(navController: NavController, cadastrox: (String, String) -> Unit) 
             value = loginx,
             onValueChange = { loginx = it },
             label = { Text("Login") },
-            colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
+            colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.LightGray,
                 cursorColor = Color.Black
             ),
@@ -51,7 +44,7 @@ fun cadastro(navController: NavController, cadastrox: (String, String) -> Unit) 
             value = senha,
             onValueChange = { senha = it },
             label = { Text("Senha") },
-            colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
+            colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.LightGray,
                 cursorColor = Color.Black
             ),
@@ -60,18 +53,40 @@ fun cadastro(navController: NavController, cadastrox: (String, String) -> Unit) 
         Spacer(modifier = Modifier.height(14.dp))
         Button(
             onClick = {
-                cadastrox(loginx, senha)
-                navController.navigate("login")
+                scope.launch(Dispatchers.IO) {
+                    usuarioDAO.buscarPorNome(loginx) { usuario ->
+                        if (usuario != null) {
+                            error = "Esse usuário já existe!"
+                        } else {
+                            val usuarioSalvo = Usuario(
+                                loginx = loginx,
+                                senha = senha
+                            )
+                            usuarioDAO.adicionar(usuarioSalvo) { sucesso ->
+                                if (sucesso) {
+                                    navController.navigate("login")
+                                }
+                            }
+                        }
+                    }
+                }
             },
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+            colors = ButtonDefaults.buttonColors(
                 containerColor = Color.DarkGray,
                 contentColor = Color.White
             ),
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Cadastre e Bem-vinda!")
+            Text("Cadastre a sua conta")
+        }
+
+        if (error.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = error,
+                color = Color.Red,
+                modifier = Modifier.padding(top = 8.dp)
+            )
         }
     }
 }
-
-/*Cadastro*/

@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,15 +24,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.telas.model.dados.UsuarioDAO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 val usuarioDAO: UsuarioDAO = UsuarioDAO()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun login(navController: NavController, cadLogin: String, cadSenha: String) {
+fun login(navController: NavController) {
+    val scope = rememberCoroutineScope()
     var loginx by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
@@ -63,13 +68,18 @@ fun login(navController: NavController, cadLogin: String, cadSenha: String) {
         )
 
         Spacer(modifier = Modifier.height(14.dp))
-        Button(onClick = {
-            if (loginx == cadLogin && senha == cadSenha) {
-                navController.navigate("main")
-            } else {
-                error = "Errou, tenta novamente"
-            }
-        },
+        Button(
+            onClick = {
+                scope.launch(Dispatchers.IO) {
+                    usuarioDAO.buscarPorNome(loginx) { usuario ->
+                        if (usuario != null && usuario.senha == senha) {
+                            navController.navigate("home")
+                        } else {
+                            error = "Errou, tente novamente."
+                        }
+                    }
+                }
+            },
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                 containerColor = Color.DarkGray,
                 contentColor = Color.White

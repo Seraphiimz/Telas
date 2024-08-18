@@ -39,8 +39,14 @@ class UsuarioDAO {
     }
 
 
-    fun adicionar(usuario: Usuario, callback: (Usuario) -> Unit) {
-        //TODO implemente adicionar
+    fun adicionar(usuario: Usuario, callback: (Boolean) -> Unit) {
+        db.collection("usuarios").add(usuario)
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
     }
 
 }
